@@ -320,3 +320,10 @@ TSWLatexianTemp*
 #*Notes.bib
 
 .DS_Store
+
+## Private assets
+images/
+
+## Company-specific application letters
+EN/cover_letter_*
+DE/bewerbungsschreiben_*
