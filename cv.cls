@@ -1,7 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{cv}[2026/07/15 CV class based on the RenderCV sb2nov template]
 
-% Class options:
+% Class options
 %   german - German hyphenation (babel) and footer wording
 \newif\ifcv@german
 \DeclareOption{german}{\cv@germantrue}
@@ -10,7 +10,7 @@
 
 \LoadClass[10pt, letterpaper]{article}
 
-% Packages:
+% Packages
 \RequirePackage[
     ignoreheadfoot, % set margins without considering header and footer
     top=2 cm, % seperation between body and page edge from the top
@@ -29,6 +29,7 @@
 \RequirePackage{enumitem} % for customizing lists
 \RequirePackage{fontawesome5} % for using icons
 \RequirePackage{amsmath} % for math
+\RequirePackage{graphicx} % for including images
 \ifcv@german
     \RequirePackage[ngerman]{babel} % German hyphenation and typography
 \fi
@@ -47,7 +48,7 @@
 \RequirePackage{needspace} % for avoiding page brake right after the section title
 \RequirePackage{iftex} % check if engine is pdflatex, xetex or luatex
 
-% Ensure that generate pdf is machine readable/ATS parsable:
+% Ensure that generate pdf is machine readable/ATS parsable
 \ifPDFTeX
     \input{glyphtounicode}
     \pdfgentounicode=1
@@ -56,7 +57,7 @@
     \RequirePackage{lmodern}
 \fi
 
-% Language-dependent footer wording:
+% Language-dependent footer wording
 \ifcv@german
     \def\cv@pageword{Seite}
     \def\cv@ofword{von}
@@ -65,13 +66,13 @@
     \def\cv@ofword{of}
 \fi
 
-% Document metadata, set in the .tex file before \begin{document}:
+% Document metadata, set in the .tex file before \begin{document}
 \def\cv@name{}
 \newcommand{\cvname}[1]{\def\cv@name{#1}}
 \def\cv@lastupdated{}
 \newcommand{\cvlastupdated}[1]{\def\cv@lastupdated{#1}}
 
-% Some settings:
+% Some settings
 \AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
 \pagestyle{empty} % no header or footer
 \setcounter{secnumdepth}{0} % no section numbering
@@ -88,13 +89,13 @@
 \titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
 
 \titlespacing{\section}{
-    % left space:
+    % left space
     -1pt
 }{
-    % top space:
+    % top space
     0.3 cm
 }{
-    % bottom space:
+    % bottom space
     0.2 cm
 } % section title spacing
 
@@ -151,26 +152,30 @@
 } % new environment for the header
 
 \newcommand{\placelastupdatedtext}{% \placetextbox{<horizontal pos>}{<vertical pos>}{<stuff>}
-  \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
-    \put(
-        \LenToUnit{\paperwidth-2 cm-0.2 cm+0.05cm},
-        \LenToUnit{\paperheight-1.0 cm}
-    ){\vtop{{\null}\makebox[0pt][c]{
-        \small\color{gray}\textit{\cv@lastupdated}\hspace{\widthof{\cv@lastupdated}}
-    }}}%
-  }%
+    \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
+        \put(
+            \LenToUnit{\paperwidth-2 cm-0.2 cm+0.05cm},
+            \LenToUnit{\paperheight-1.0 cm}
+        ){\vtop{{\null}\makebox[0pt][c]{
+            \small\color{gray}\textit{\cv@lastupdated}\hspace{\widthof{\cv@lastupdated}}
+        }}}%
+    }%
 }%
 
-% save the original href command in a new command:
+% save the original href command in a new command
 \let\hrefWithoutArrow\href
 
-% new command for external links:
+% new command for external links
 \renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }\raisebox{.15ex}{\footnotesize \faExternalLink*}}}
 
-% separator between header contact items:
+% separator between header contact items
 \newcommand{\AND}{\unskip
     \cleaders\copy\ANDbox\hskip\wd\ANDbox
     \ignorespaces
 }
 \newsavebox\ANDbox
 \sbox\ANDbox{}
+
+% Gray placeholder marker for drafts
+\newcommand{\placeholder}[1]{\textcolor{gray}{\textit{[#1]}}}
+\let\platzhalter\placeholder % German alias
